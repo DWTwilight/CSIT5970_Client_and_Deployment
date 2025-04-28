@@ -58,6 +58,8 @@ def poll_job_status(server_addr, job_id, max_retry=5):
 
             if data["status"] == 0:  # Success
                 if progress_bar:
+                    progress_bar.n = data["frames"]
+                    progress_bar.refresh()
                     progress_bar.close()
                 return data
             elif data["status"] == 1:  # In progress

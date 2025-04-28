@@ -1,5 +1,7 @@
 spring:
   application:
     name: backend
-  datasource:
-    driver-class-name: org.postgresql.Driver
+  servlet:
+    multipart:
+      max-file-size: 128MB
+      max-request-size: 128MB

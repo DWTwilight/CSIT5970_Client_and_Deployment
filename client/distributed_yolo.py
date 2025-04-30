@@ -8,6 +8,8 @@ import colorsys
 import random
 from tqdm import tqdm
 
+headers = {"Host": "yolo-backend"}
+
 
 class UploadProgressWrapper:
     def __init__(self, file_obj, progress_bar):
@@ -35,7 +37,9 @@ def upload_video(server_addr, video_path):
         ) as progress_bar:
             with open(video_path, "rb") as f:
                 wrapped_file = UploadProgressWrapper(f, progress_bar)
-                response = requests.post(url, files={"video": wrapped_file})
+                response = requests.post(
+                    url, files={"video": wrapped_file}, headers=headers
+                )
 
             if response.status_code == 200:
                 return response.json()["job_id"]
@@ -52,7 +56,7 @@ def poll_job_status(server_addr, job_id, max_retry=5):
 
     while True:
         try:
-            response = requests.get(status_url)
+            response = requests.get(status_url, headers=headers)
             data = response.json()
             cur_retry = 0
 

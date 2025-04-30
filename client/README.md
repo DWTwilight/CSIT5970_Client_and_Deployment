@@ -3,7 +3,7 @@
 ## Test
 
 ```sh
-python distributed_yolo.py --server_addr http://localhost:8080 --input /home/tianci-zhao/Documents/projects/HKUST/cloud/group_project/client/out/demo.mp4
+python distributed_yolo.py --server_addr http://$(minikube ip) --input /home/tianci-zhao/Documents/projects/HKUST/cloud/group_project/client/out/demo.mp4
 ```
 
 ## Build Docker Image
@@ -16,9 +16,10 @@ docker build -t dwtwilight/csit5970-yolo-client:latest .
 
 ```sh
 docker run -it --rm \
+  --network host \
   -v ./out:/data \
   dwtwilight/csit5970-yolo-client:latest \
-  --server_addr http://192.168.68.119:8080 \
+  --server_addr http://$(minikube ip) \
   --input /data/demo.mp4
 ```
 

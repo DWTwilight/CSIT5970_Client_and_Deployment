@@ -1,9 +1,32 @@
 # Readme
 
+## K8S Dashboard Token
+
+```sh
+kubectl -n kubernetes-dashboard create token dashboard-admin
+```
+
 ## Kafka
 
 - `kafka`(internal): `kafka-headless:9092`, `kafka`, `kafka-headless.kafka.svc.cluster.local:9092`
 - `kafka-ui`(external): `192.168.49.2:30080`
+
+## Spark
+
+### install spark-operator:
+
+```sh
+# 添加 Helm 仓库并安装（推荐）
+helm repo add spark-operator https://kubeflow.github.io/spark-operator
+helm repo update
+helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace --set webhook.enable=true --set "spark.jobNamespaces={spark-apps}" --wait
+```
+
+```sh
+kubectl create namespace spark-apps
+kubectl create serviceaccount spark --namespace=spark-apps
+kubectl create clusterrolebinding spark-role --clusterrole=edit --serviceaccount=spark-apps:spark --namespace=spark-apps
+```
 
 ## External
 
@@ -67,10 +90,4 @@ Failed:
   "status": 2,
   "message": "error message"
 }
-```
-
-## K8S Dashboard Token
-
-```txt
-eyJhbGciOiJSUzI1NiIsImtpZCI6Ii1BNURqckVRbnd1ZU1qbE9WUVJRUnpsSEhNVHBzS3RuRXQwbkpCR3RmWmcifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzQ2MDI3MDEyLCJpYXQiOjE3NDYwMjM0MTIsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwianRpIjoiMjFmNzVkZjEtNzdjNS00YTMwLWE5MjMtMjgzMjhjMzYxZjVmIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJkYXNoYm9hcmQtYWRtaW4iLCJ1aWQiOiI2MzdiMTU1Ny1kNTZmLTQzYjYtODdmOS1iMDMyMjQ2Y2UxZDAifX0sIm5iZiI6MTc0NjAyMzQxMiwic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50Omt1YmVybmV0ZXMtZGFzaGJvYXJkOmRhc2hib2FyZC1hZG1pbiJ9.ZRlYb9dvKZpNKkYEntgqV86bNww5JJyTEPCT60O-zrTRXwNnqI8SXVBnja8ERQpUoyeAiWRSN6xp9plE2UdPMpmuWGStR9_OTMhXvZFw5LOKHk7EioUKMyUnxXxNPBTbB84J1-9Af5UbK7a4n5eN5tPZmZZBbHiicrm_Prh6Um7yOqoW5gLdnuF037D6gnuZgLwuIlUcf_T9DBTSXf5bM9tiFvG5618dwuK8RCsoCDS1oeco46D1Ijqnr59T1QFc0ESlVuKRVoAFg8Tk0ul_xTTO5zJO0XUyYMaMNS3OReRnWzigNyUCcCTfMwlErescPqbc2d40avR_f6nWyxG9eA
 ```

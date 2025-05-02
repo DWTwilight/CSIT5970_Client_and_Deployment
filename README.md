@@ -1,17 +1,16 @@
 # Readme
 
-## start minikube
+## privilege issue
 
 ```sh
-minikube start --memory=8192 --cpus=8
-minikube addons enable ingress
-minikube addons enable metrics-server
+sudo usermod -aG docker $USER && newgrp docker
+eval $(minikube docker-env)
 ```
 
-## K8S Dashboard Token
+## start dashboard
 
 ```sh
-kubectl -n kubernetes-dashboard create token dashboard-admin
+nohup minikube dashboard > dashboard.log 2>&1 &
 ```
 
 ## Kafka
@@ -57,6 +56,16 @@ kubectl apply -f spark-job.yml
 
 - `postgres`: `postgres:5432`, `default`, `postgres.default.svc.cluster.local:5432`
 - `redis`: `redis:6379`, `default`, `redis.default.svc.cluster.local:6379`
+
+### test
+
+```sh
+kubectl run test-redis --image=redis:alpine -it --rm --restart=Never -- sh
+/data # redis-cli -h redis -p 6379
+
+kubectl run test-pod --image=postgres:alpine --rm -it --restart=Never -- sh
+/ # psql -h postgres -p 5432 -U postgres
+```
 
 ## API Definition
 

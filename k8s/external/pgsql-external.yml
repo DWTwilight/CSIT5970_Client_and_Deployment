@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: postgres
 spec:
+  type: ExternalName
+  externalName: host.minikube.internal
   ports:
     - port: 5432
-      targetPort: 5432

@@ -1,5 +1,13 @@
 # Readme
 
+## start minikube
+
+```sh
+minikube start --memory=8192 --cpus=8
+minikube addons enable ingress
+minikube addons enable metrics-server
+```
+
 ## K8S Dashboard Token
 
 ```sh

@@ -3,6 +3,7 @@ kind: Service
 metadata:
   name: redis
 spec:
+  type: ExternalName
+  externalName: host.minikube.internal
   ports:
     - port: 6379
-      targetPort: 6379

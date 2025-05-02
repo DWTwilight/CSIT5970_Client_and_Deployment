@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 import redis
+import os
 
 
 def process_batch(df, epoch_id):
@@ -28,9 +29,7 @@ if __name__ == "__main__":
     # Kafka配置（参考网页7）
     df = (
         spark.readStream.format("kafka")
-        .option(
-            "kafka.bootstrap.servers", "kafka-headless.kafka.svc.cluster.local:9092"
-        )
+        .option("kafka.bootstrap.servers", os.getenv("KAFKA_BOOTSTRAP_SERVER"))
         .option("subscribe", "test-spark")
         .option("group.id", "spark-consumer-group")
         .load()

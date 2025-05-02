@@ -8,7 +8,15 @@ kubectl -n kubernetes-dashboard create token dashboard-admin
 
 ## Kafka
 
-- `kafka`(internal): `kafka-headless:9092`, `kafka`, `kafka-headless.kafka.svc.cluster.local:9092`
+### Install via Strimiz
+
+```sh
+kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
+
+kubectl apply -f https://strimzi.io/examples/latest/kafka/kraft/kafka-single-node.yaml -n kafka
+```
+
+- `kafka`(internal): `my-cluster-kafka-bootstrap:9092`, `kafka`, `my-cluster-kafka-bootstrap.kafka.svc.cluster.local:9092`
 - `kafka-ui`(external): `192.168.49.2:30080`
 
 ## Spark
@@ -22,10 +30,19 @@ helm repo update
 helm install my-release spark-operator/spark-operator --namespace spark-operator --create-namespace --set webhook.enable=true --set "spark.jobNamespaces={spark-apps}" --wait
 ```
 
+### create service account for spark job
+
 ```sh
 kubectl create namespace spark-apps
 kubectl create serviceaccount spark --namespace=spark-apps
 kubectl create clusterrolebinding spark-role --clusterrole=edit --serviceaccount=spark-apps:spark --namespace=spark-apps
+```
+
+### create job
+
+```sh
+# kubectl delete sparkapplication test-spark -n spark-apps
+kubectl apply -f spark-job.yml
 ```
 
 ## External

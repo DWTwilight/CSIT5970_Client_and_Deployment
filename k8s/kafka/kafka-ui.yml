@@ -15,9 +15,9 @@ spec:
     spec:
       containers:
         - name: kafka-ui
-          image: kafbat/kafka-ui:main
+          image: kafbat/kafka-ui:v1.2.0
           env:
             - name: KAFKA_CLUSTERS_0_NAME
               value: "kafka-minikube"
             - name: KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS
-              value: "kafka-headless:9092"
+              value: "my-cluster-kafka-bootstrap:9092"

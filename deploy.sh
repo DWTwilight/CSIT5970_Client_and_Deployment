@@ -11,7 +11,7 @@ kubectl apply -f ./k8s/external/redis-external.yml
 kubectl apply -f ./k8s/kafka/kafka-namespace.yml
 # Strimzi
 kubectl create -f 'https://strimzi.io/install/latest?namespace=kafka' -n kafka
-kubectl apply -f https://strimzi.io/examples/latest/kafka/kraft/kafka-single-node.yaml -n kafka
+kubectl apply -f ./k8s/kafka/kafka-cluster.yml -n kafka
 # kafka dashboard
 kubectl apply -f ./k8s/kafka/kafka-ui.yml
 
